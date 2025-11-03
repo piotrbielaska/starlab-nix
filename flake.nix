@@ -11,6 +11,39 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.05"; # change version to variable availabe in all files
+    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-25.05"; # change version to variable availabe in all files
+  };
+
+  outputs = {
+    self,
+    home-manager,
+    nixpkgs,
+    ...
+  } @ inputs let
+    inherit (self) outputs;
+    systems = [
+      "aarch64-linux"
+      "i686-linux"
+      "x86_64-linux"
+      "aarch64-darwin"
+    ];
+    forAllSystems = nixpkgs.lib.genAttrs systems;
+  in {
+    packages =
+      forAllSystems (system: import ./pkgs nixpkgs.legacyPackages.${system});
+    overlays = import ./overlays {inherit inputs;};
+    nixosConfigurations = {
+      rust = nixpkgs.lib.nixosSystem {
+	specialArgs = { inherit inputs outputs;};
+	modules = [./hosts/rust];
+      };
+    };
+    homeConfigurations = {
+      "piotr@rust" = home-manager.lib.homeManagerConfiguration {
+	pkgs = nixpkgs.legacyPackages."x86_64-linux";
+	extraSpecialArgs = {inherit inputs outputs;};
+	modules = [./home/piotr/rust.nix];
+      };
+    };
   };
 }
