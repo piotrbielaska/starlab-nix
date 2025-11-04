@@ -23,7 +23,7 @@
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIL0Z7v2J3f5SqWVzAjGLwz0qMLddFfFwXjKT7IPi5jmx piotrbielaska@starship"
     ];
-    packages = [inputs.home-manager.packages.${pkgs.system}.default];
+    packages = [inputs.home-manager.packages.${pkgs.stdenv.hostPlatform.system}.default];
   };
   home-manager.users.piotr =
     import ../../../home/piotr/${config.networking.hostName}.nix;
