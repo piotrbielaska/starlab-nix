@@ -2,6 +2,8 @@
 # On an existing NIXOS install you can use the following command in your flakes basedir:
 # sudo nixos-generate-config --dir ./hosts/piotr
 #
+# File is refering to other configuration nix files curated for commmon and individual packages/settings
+#
 # Please make sure to change the first couple of lines in your configuration.nix:
 # { config, inputs, ouputs, lib, pkgs, ... }:
 #

@@ -1,10 +1,18 @@
-# Common configuration for all hosts
+# configuration for all hosts
 {
   lib,
   inputs,
   outputs,
   ...
 }: {
+  imports = [
+    ./users
+    inputs.home-manager.nixosModules.home-manager
+  ];
+  home-manager = {
+    useUserPackages = true;
+    extraSpecialArgs = {inherit inputs outputs;};
+  };
   nixpkgs = {
     # You can add overlays here
     overlays = [
@@ -33,6 +41,7 @@
   nix = {
     settings = {
       experimental-features = "nix-command flakes";
+      # warn-dirty = false;
       trusted-users = [
         "root"
         "piotr"
@@ -40,6 +49,7 @@
     };
     gc = {
       automatic = true;
+      dates = "weekly";
       options = "--delete-older-than 30d";
     };
     optimise.automatic = true;
