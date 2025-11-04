@@ -127,12 +127,14 @@
   ##----------------------------------------------------------
 
   fonts.packages = with pkgs; [
-    nerd-fonts = {
-      jetbrains-mono
-      fira-code
-      fira-mono
-      hack
-    };
+    (nerd-fonts.override { 
+      fonts = [ 
+	"JetBrainsMono" 
+	"FiraCode" 
+	"FiraMono"
+	"Hack" 
+      ]; 
+    })
   ];
 
   ##----------------------------------------------------------
