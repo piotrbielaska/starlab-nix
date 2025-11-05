@@ -55,19 +55,119 @@
       };
     };
     homeConfigurations = {
+      ## ------------------------------------
+      ## RUST | TEST VM & DOCKER HOST @ MARS
+      ## ------------------------------------
+
       "piotr@rust" = home-manager.lib.homeManagerConfiguration {
-	pkgs = nixpkgs.legacyPackages."x86_64-linux";
-	extraSpecialArgs = {inherit inputs outputs;};
-	modules = [./home/piotr/rust.nix];
-#      "piotr@jupiter" = home-manager.lib.homeManagerConfiguration {
-#	pkgs = nixpkgs.legacyPackages."x86_64-linux";
-#	extraSpecialArgs = {inherit inputs outputs;};
-#	modules = [./home/piotr/jupiter.nix];
-#      "marianna@jupiter" = home-manager.lib.homeManagerConfiguration {
-#	pkgs = nixpkgs.legacyPackages."x86_64-linux";
-#	extraSpecialArgs = {inherit inputs outputs;};
-#	modules = [./home/marianna/jupiter.nix];
+	      pkgs = nixpkgs.legacyPackages."x86_64-linux";
+	      extraSpecialArgs = {inherit inputs outputs;};
+	      modules = [./home/piotr/rust.nix];
+        backupFileExtension = "backup";
       };
+
+      ## --------------------------------
+      ## OXIDE | HOME ASSISTANT VM @ MARS
+      ## --------------------------------
+
+      # "piotr@oxide" = home-manager.lib.homeManagerConfiguration {
+      #	  pkgs = nixpkgs.legacyPackages."x86_64-linux";
+      #	  extraSpecialArgs = {inherit inputs outputs;};
+      #	  modules = [./home/piotr/oxide.nix];
+      #   backupFileExtension = "backup";
+      #};
+
+      ## -------------------------------------------------
+      ## JUPITER | H1 DESKTOP GAMING & TRANSCODING SERVER
+      ## -------------------------------------------------
+
+      # "piotr@jupiter" = home-manager.lib.homeManagerConfiguration {
+      #	  pkgs = nixpkgs.legacyPackages."x86_64-linux";
+      #	  extraSpecialArgs = {inherit inputs outputs;};
+      #	  modules = [./home/piotr/jupiter.nix];
+      #   backupFileExtension = "backup";
+      #};
+      # "marianna@jupiter" = home-manager.lib.homeManagerConfiguration {
+      #	  pkgs = nixpkgs.legacyPackages."x86_64-linux";
+      #	  extraSpecialArgs = {inherit inputs outputs;};
+      #	  modules = [./home/marianna/jupiter.nix];
+      #   backupFileExtension = "backup";
+      #};
+      # "krzysztof@jupiter" = home-manager.lib.homeManagerConfiguration {
+      #	  pkgs = nixpkgs.legacyPackages."x86_64-linux";
+      #	  extraSpecialArgs = {inherit inputs outputs;};
+      #	  modules = [./home/krzysztof/jupiter.nix];
+      #   backupFileExtension = "backup";
+      #};      
+      # "jagoda@jupiter" = home-manager.lib.homeManagerConfiguration {
+      #	  pkgs = nixpkgs.legacyPackages."x86_64-linux";
+      #	  extraSpecialArgs = {inherit inputs outputs;};
+      #	  modules = [./home/jagoda/jupiter.nix];
+      #   backupFileExtension = "backup";
+      #};      
+      # "stanislaw@jupiter" = home-manager.lib.homeManagerConfiguration {
+      #	  pkgs = nixpkgs.legacyPackages."x86_64-linux";
+      #	  extraSpecialArgs = {inherit inputs outputs;};
+      #	  modules = [./home/stanislaw/jupiter.nix];
+      #   backupFileExtension = "backup";
+      #};
+
+      ## -----------------------------------------------------
+      ## MERCURY | RASPERRY PI ZERO W FOR WMBUSMETERS READING
+      ## -----------------------------------------------------
+
+      # "piotr@mercury" = home-manager.lib.homeManagerConfiguration {
+      #	  pkgs = nixpkgs.legacyPackages."aarch64-linux";
+      #	  extraSpecialArgs = {inherit inputs outputs;};
+      #	  modules = [./home/piotr/mercury.nix];
+      #   backupFileExtension = "backup";
+      #};
+
+      ## ---------------------------------
+      ## STARSHIP | MACBOOK PRO 14 PRO M1
+      ## ---------------------------------
+
+      # "piotr@starship" = home-manager.lib.homeManagerConfiguration {
+      #	  pkgs = nixpkgs.legacyPackages."aarch64-darwin";
+      #	  extraSpecialArgs = {inherit inputs outputs;};
+      #	  modules = [./home/piotr/starship.nix];
+      #   backupFileExtension = "backup";
+      #};
+
+      ## --------------------------
+      ## SHUTTLE | STEAMDECK OLED
+      ## --------------------------
+
+      # "piotr@shuttle" = home-manager.lib.homeManagerConfiguration {
+      #	  pkgs = nixpkgs.legacyPackages."aarch64-linux";
+      #	  extraSpecialArgs = {inherit inputs outputs;};
+      #	  modules = [./home/piotr/shuttle.nix];
+      #   backupFileExtension = "backup";
+      #};
+
+      ## ----------------------------
+      ## MOON | SYNOLOGY DS1522+ NAS
+      ## ----------------------------
+
+      # "piotr@moon" = home-manager.lib.homeManagerConfiguration {
+      #	  pkgs = nixpkgs.legacyPackages."aarch64-linux";
+      #	  extraSpecialArgs = {inherit inputs outputs;};
+      #	  modules = [./home/piotr/moon.nix];
+      #   backupFileExtension = "backup";
+      #};
+
+      ## -----------------------------------------------------------------------------------------------------------
+      ## EARTH | DYI NAS (FUTURE BUILD TO REPLACE MOON AND JUPITER FOR TRANSCODING AND MEMORY/POWER HUNGRY SERVICES)
+      ## -----------------------------------------------------------------------------------------------------------    
+
+      # "piotr@earth" = home-manager.lib.homeManagerConfiguration {
+      #	  pkgs = nixpkgs.legacyPackages."x86_64-linux";
+      #	  extraSpecialArgs = {inherit inputs outputs;};
+      #	  modules = [./home/piotr/earth.nix];
+      #   backupFileExtension = "backup";
+      #};
+
+
     };
   };
 }

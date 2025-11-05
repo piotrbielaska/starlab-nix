@@ -4,6 +4,7 @@
   inputs,
   ...
 }: {
+  
   users.users.piotr = {
     initialHashedPassword = "$y$j9T$T3VjA6AJldndCmSHSfsHo.$zLXvZj8ZNLxt57Qn37efSvUAANMenGQw0dL1iOlY0/A";
     isNormalUser = true;
@@ -11,6 +12,7 @@
     extraGroups = [
       "wheel"
       "networkmanager"
+      "podman"
       #"libvirtd"
       #"flatpak"
       #"audio"
@@ -25,6 +27,19 @@
     ];
     packages = [inputs.home-manager.packages.${pkgs.stdenv.hostPlatform.system}.default];
   };
+  
+  programs.git = {
+    enable = true;
+    extraConfig = {
+	user = {
+	    email = "github@bielaska.pl";
+	    name = "piotr";  # add your name too
+	};    
+	init.defaultBranch = "main";
+	pull.rebase = true;
+    };
+  };
+
   home-manager.users.piotr =
     import ../../../home/piotr/${config.networking.hostName}.nix;
 }

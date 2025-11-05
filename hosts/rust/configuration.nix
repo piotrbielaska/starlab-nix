@@ -8,6 +8,7 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      # ./docker/docker.nix # contains list of docker containers settings in separate nix files, which are running as systemclt services using podman
     ];
 
   # Use the GRUB 2 boot loader.
@@ -96,7 +97,7 @@
   users.users.piotr = {
     isNormalUser = true;
     description = "Piotr Bielaska";
-    extraGroups = [ "networkmanager" "wheel" ]; # Enable network modifications and ‘sudo’ for the user.
+    extraGroups = [ "networkmanager" "wheel" "podman"]; # Enable network modifications, ‘sudo’ for the user and podman controlls
     shell = pkgs.zsh;
     packages = with pkgs; [];
   };
@@ -118,8 +119,17 @@
   environment.systemPackages = with pkgs; [
     neovim
     git
+    wget
+    curl
+    tree
+    dive
+    podman-tui
+    docker-compose
+    passt
     # alacritty ## graphical interface terminal app
-    # kitty  ## graphical inetrface terminal app
+    # kitty  ## graphical interface terminal app
+    # wofi ## graphical interface launcher
+    # warp ## graphical interface terminal app
   ];
 
   ##----------------------------------------------------------
