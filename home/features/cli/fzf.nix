@@ -16,7 +16,7 @@ with lib; let
         enableZshIntegration = true;
         # tmux.enableShellIntegration = true;
 
-        colors = [
+        colors = {
           "fg" = "#f8f8f2";
           "bg" = "#282a36"; 
           "hl" = "#bd93f9";
@@ -29,7 +29,7 @@ with lib; let
           "marker" = "#ff79c6";
           "spinner" = "#ffb86c";
           "header" = "#6272a4";
-        ];
+        };
 
         defaultOptions = [
           "--no-mouse"
@@ -40,5 +40,4 @@ with lib; let
         changeDirWidgetCommand = "fd --type d --hidden --follow --exclude .git";
       };
     };
-  };
-}
+  }
