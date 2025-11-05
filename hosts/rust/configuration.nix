@@ -126,10 +126,12 @@
     podman-tui
     docker-compose
     passt
+    bat
     # alacritty ## graphical interface terminal app
     # kitty  ## graphical interface terminal app
     # wofi ## graphical interface launcher
     # warp ## graphical interface terminal app
+    # vscode ## graphical interface code editor
   ];
 
   ##----------------------------------------------------------

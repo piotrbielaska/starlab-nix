@@ -1,4 +1,4 @@
-{ config, ... }: { 
+{ config, pkgs, ... }: { 
   imports = [
     ./home.nix 
     ../common
@@ -8,7 +8,7 @@
   features = {
     cli = {
       zsh.enable = true;
-    }
+    };
   };
 
   programs.git = {

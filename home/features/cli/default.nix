@@ -28,11 +28,6 @@
     config = {
       theme = "Nord";
     };
-    zsh = {
-      shellAliases = {
-        cat = "${pkgs.bat}/bin/bat";
-      };
-    };
   };
 
   programs.gpg.enable = true; # GNU Privacy Guard for encryption and signing data
@@ -67,10 +62,10 @@
     fd # replacing find command
     httpie # user-friendly curl alternative
     jq #jason query tool
-    proces # process viewer
+    procs # process viewer
     tldr # simplified and community
     zip # file compression 
-    exa # modern replacement for  ls 
+    eza # modern replacement for  ls 
     dust # disk usage analyzer
   ];
 }
