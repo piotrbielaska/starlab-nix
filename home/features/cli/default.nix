@@ -4,6 +4,8 @@
 
   imports = [
     ./zsh.nix
+    ./fzf.nix
+    ./neofetch.nix
   ];
 
   programs.eza = { # modern replacement for ls command
@@ -35,16 +37,6 @@
   programs.direnv = { # directory-based environment variable manager
     enable = true;
     nix-direnv.enable = true;
-  };
-
-  programs.fzf = { # command-line fuzzy finder
-    enable = true;
-    enableBashIntegration = true;
-    enableZshIntegration = true;
-    tmux.enableShellIntegration = true;
-    defaultOptions = [
-      "--no-mouse"
-    ];
   };
 
   programs.diff-so-fancy.enableGitIntegration = true; # enhanced git diff viewer
