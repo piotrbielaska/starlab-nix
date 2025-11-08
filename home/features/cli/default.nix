@@ -6,6 +6,9 @@
     ./zsh.nix
     ./fzf.nix
     ./neofetch.nix
+    ./neovim.nix
+    ./tmux.nix
+    ./starship.nix
   ];
 
   programs.eza = { # modern replacement for ls command
@@ -53,9 +56,9 @@
     ripgrep # better grep
     fd # replacing find command
     httpie # user-friendly curl alternative
-    jq #jason query tool
+    jq # JSON query tool
     procs # process viewer
-    tldr # simplified and community
+    tldr # simplified help for command-line tools
     zip # file compression 
     eza # modern replacement for  ls 
     dust # disk usage analyzer

@@ -30,5 +30,27 @@
 
   home-manager.users.piotr =
     import ../../../home/piotr/${config.networking.hostName}.nix;
+  
+  programs.git = {
+    enable = true;
+    settings = {
+      user = {
+        email = "git@bielaska.pl";
+        name = "piotr";
+      };
+      lfs.enable = true;
+      init = {
+          defaultBranch = "main";
+        };
+        merge = {
+        conflictStyle = "diff3";
+          tool = "meld";
+        };
+        pull = {
+          rebase = true;
+        };
+    };
+  };
+
 }
 
