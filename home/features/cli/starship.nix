@@ -14,8 +14,7 @@ with lib; let
         enable = true;
         enableZshIntegration = true;
         enableBashIntegration = true;
-        settings = pkgs.lib.importTOML ../features/cli/starship/starship.toml;
+        settings = pkgs.lib.importTOML ./starship/starship.toml;
       };
     };
-  };
-}
+  }

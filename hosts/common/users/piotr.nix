@@ -33,7 +33,7 @@
   
   programs.git = {
     enable = true;
-    settings = {
+    config = {
       user = {
         email = "git@bielaska.pl";
         name = "piotr";

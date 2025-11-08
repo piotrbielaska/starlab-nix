@@ -8,8 +8,20 @@
   ];
 
   virtualization = {
-    podman.enable = true;
-    docker.enable = true;
+    podman = {
+      enable = true;
+      autoPrune = {
+        enable = true;
+        dates = "weekly";
+      };
+    };
+    docker = {
+      enable = true;
+      autoPrune = {
+        enable = true;
+        dates = "weekly";
+      };
+    };
   };
 
   home.packages = with pkgs; [
