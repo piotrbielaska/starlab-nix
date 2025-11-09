@@ -5,10 +5,10 @@
   ...
 }: {
   
-  users.users.jagoda = {
+  users.users.marianna = {
     # initialHashedPassword = "";
     isNormalUser = true;
-    description = "Jagoda Bielaska";
+    description = "Marianna Bielaska";
     extraGroups = [
       "flatpak"
       "audio"
@@ -20,8 +20,8 @@
     packages = [inputs.home-manager.packages.${pkgs.stdenv.hostPlatform.system}.default];
   };
 
-  home-manager.users.jagoda =
-    import ../../../home/jagoda/${config.networking.hostName}.nix;
+  home-manager.users.marianna =
+    import ../../../home/marianna/${config.networking.hostName}.nix;
 
 }
 

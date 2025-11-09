@@ -2,20 +2,26 @@
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
-{ config, lib, pkgs, stateVersion... }:
+{ 
+  config, 
+  lib, 
+  pkgs, 
+  stateVersion, 
+  ... 
+}:
 
 {
   imports =
     [ # Include the results of the hardware scan.
       ./disko-config.nix
       ./hardware-configuration.nix
-      # ./docker/docker.nix # contains list of docker containers settings in separate nix files, which are running as systemclt services using podman
     ];
 
   # Use the GRUB 2 boot loader.
   # boot.loader.grub.enable = true;
   # boot.loader.grub.device = "/dev/sda";
   # boot.loader.grub.useOSProber = true;
+
   # moving over to systemd-boot
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -130,21 +136,12 @@
   hardware.logitech.wireless.enable = true; # enable Logitech wireless devices support
 
   environment.systemPackages = with pkgs; [
-    neovim
-    git
-    wget
-    curl
-    tree
-    dive
-    podman-tui
-    docker-compose
-    passt
-    bat
-    # alacritty ## graphical interface terminal app
-    # kitty  ## graphical interface terminal app
-    # wofi ## graphical interface launcher
-    # warp ## graphical interface terminal app
-    # vscode ## graphical interface code editor
+    neovim # terminal text editor
+    git # version control system
+    wget # file downloader
+    curl # file downloader
+    tree # directory structure visualizer
+    bat # cat clone with syntax highlighting and git integration
   ];
 
   ##----------------------------------------------------------
@@ -172,6 +169,8 @@
       # PubkeyAuthentication = true; #enable login using ssh public key
     };
   };
+
+  extraservices.podman.enable = true; # enable podman service from extraservices module
 
   # Firewall
   # networking.firewall.allowedTCPPorts = [ ... ];

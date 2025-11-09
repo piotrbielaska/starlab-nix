@@ -117,24 +117,28 @@
       };
     };
 
-    # nixosConfigurations = {
-    #   rust = nixpkgs.lib.nixosSystem {
-	  #     specialArgs = { inherit inputs outputs;};
-	  #     modules = [
-    #       ./hosts/rust
-    #       inputs.disko.nixosModules.disko
-    #     ];
-    #   };
-    # };
+    nixosConfigurations = {
+      rust = nixpkgs.lib.nixosSystem {
+	      specialArgs = { 
+          inherit inputs outputs stateVersion;
+        };
+	      modules = [
+          ./hosts/rust
+          inputs.disko.nixosModules.disko
+        ];
+      };
+    };
 
-    # darwinConfigurations = {
-    #   starship = nixpkgs.lib.nixosSystem {
-    #     specialArgs = { inherit inputs outputs;};
-    #     modules = [
-    #       ./hosts/starship
-    #     ];
-    #   };
-    # };
+    darwinConfigurations = {
+      starship = nixpkgs.lib.nixosSystem {
+        specialArgs = { 
+          inherit inputs outputs stateVersion;
+        };
+        modules = [
+          ./hosts/starship
+        ];
+      };
+    };
 
     homeConfigurations = {
       ## ------------------------------------
