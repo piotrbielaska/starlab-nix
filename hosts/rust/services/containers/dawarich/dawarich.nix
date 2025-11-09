@@ -1,3 +1,8 @@
+{ 
+  config,
+  ...
+}:
+
 {
 
   imports = [
@@ -13,7 +18,7 @@
       "APPLICATION_PROTOCOL" = "http";
       "DATABASE_HOST" = "dawarich_db";
       "DATABASE_NAME" = "dawarich_db";
-      "DATABASE_PASSWORD" = "dawarich_password"; # secure with age-nix!
+      "DATABASE_PASSWORD" = "$DAWARICH_PASSWORD"; # secured with agenix
       "DATABASE_USERNAME" = "dawarich_user";
       "MIN_MINUTES_SPENT_IN_CITY" = "60";
       "PROMETHEUS_EXPORTER_ENABLED" = "false";
@@ -49,6 +54,9 @@
       "--memory=4294967296b"
       "--network-alias=dawarich"
       "--network=dawarich_network"
+    ];
+    environmentFiles = [
+      config.age.secrets.secret_rust.path
     ];
   };
   

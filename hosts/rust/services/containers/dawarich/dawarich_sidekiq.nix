@@ -1,3 +1,8 @@
+{ 
+  config,
+  ...
+}:
+
 {
   
   virtualisation.oci-containers.containers."dawarich_sidekiq" = {
@@ -7,7 +12,7 @@
       "APPLICATION_PROTOCOL" = "http";
       "DATABASE_HOST" = "dawarich_db";
       "DATABASE_NAME" = "dawarich_db";
-      "DATABASE_PASSWORD" = "dawarich_password"; # secure with age-nix!
+      "DATABASE_PASSWORD" = "$DAWARICH_PASSWORD"; # secured with agenix
       "DATABASE_USERNAME" = "dawarich_user";
       "PROMETHEUS_EXPORTER_ENABLED" = "false";
       "PROMETHEUS_EXPORTER_HOST" = "dawarich";
@@ -38,6 +43,9 @@
       "--health-timeout=10s"
       "--network-alias=dawarich_sidekiq"
       "--network=dawarich_network"
+    ];    
+    environmentFiles = [
+      config.age.secrets.secret_rust.path
     ];
   };
   

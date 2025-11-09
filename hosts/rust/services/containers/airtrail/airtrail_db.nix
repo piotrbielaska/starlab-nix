@@ -1,3 +1,8 @@
+{ 
+  config,
+  ...
+}:
+
 {
   virtualisation.oci-containers.containers."airtrail_db" = {
     image = "postgres:16-alpine";
@@ -5,7 +10,7 @@
     environment = {
       "POSTGRES_AIRTRAIL_DB" = "airtrail_db";
       "POSTGRES_AIRTRAIL_USER" = "airtrail_user";
-      "POSTGRES_AIRTRAIL_PASSWORD" = "airtrail_password"; # secure with age-nix!
+      "POSTGRES_AIRTRAIL_PASSWORD" = $AIRTRAIL_PASSWORD; # secured with agenix
     };
     volumes = [
       "/opt/containers/airtrail/airtrail_db:/var/lib/postgresql/data"
@@ -18,6 +23,9 @@
       "--health-timeout=5s"
       "--network-alias=airtrail_db"
       "--network=airtrail_network"
+    ];
+    environmentFiles = [
+      config.age.secrets.secret_rust.path
     ];
   };
 }

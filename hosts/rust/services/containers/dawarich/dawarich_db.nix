@@ -1,3 +1,8 @@
+{ 
+  config,
+  ...
+}:
+
 {
   virtualisation.oci-containers.containers."dawarich_db" = {
     image = "postgres:16-alpine";
@@ -5,7 +10,7 @@
     environment = {
       "POSTGRES_DAWARICH_DB" = "dawarich_db";
       "POSTGRES_DAWARICH_USER" = "dawarich_user";
-      "POSTGRES_DAWARICH_PASSWORD" = "dawarich_password"; # secure with age-nix!
+      "POSTGRES_DAWARICH_PASSWORD" = "$DAWARICH_PASSWORD"; # secured with agenix
     };
     volumes = [
       "/opt/containers/dawarich/dawarich_db:/var/lib/postgresql/data"
@@ -21,6 +26,9 @@
       "--network-alias=dawarich_db"
       "--network=dawarich_network"
       "--shm-size=1073741824"
+    ];
+    environmentFiles = [
+      config.age.secrets.secret_rust.path
     ];
   };
 }
