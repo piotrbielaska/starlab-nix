@@ -22,18 +22,34 @@
     homebrew-cask = { url = "github:homebrew/homebrew-cask"; flake = false; };
     homebrew-bundle = { url = "github:homebrew/homebrew-bundle"; flake = false; };
   
-    # sops-nix.url = "github:Mic92/sops-nix";
-    # sops-nix.inputs.nixpkgs.follows = "nixpkgs";
+    colmena = {
+      url = "github:zhaofengli/colmena";
+    };
 
-    # disko.url = "github:nix-community/disko";
-    # disko.inputs.nixpkgs.follows = "nixpkgs";
+    # sops-nix = {
+    #   url = "github:Mic92/sops-nix";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
+
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    dotfiles = {
+      url = "github:piotrbielaska/dotfiles";
+      flake = false;
+    };
 
   };
 
   outputs = {
     self,
+    disko,
     home-manager,
     nixpkgs,
+    nixpkgs-stable,
+    dotfiles,
     ...
   } @ inputs: let
     inherit (self) outputs;
@@ -43,17 +59,76 @@
       "x86_64-linux"
       "aarch64-darwin"
     ];
+    stateVersion = "25.05"; #nixpkgs-stable release version
     forAllSystems = nixpkgs.lib.genAttrs systems;
   in {
     packages =
       forAllSystems (system: import ./pkgs nixpkgs.legacyPackages.${system});
     overlays = import ./overlays {inherit inputs;};
-    nixosConfigurations = {
-      rust = nixpkgs.lib.nixosSystem {
-	specialArgs = { inherit inputs outputs;};
-	modules = [./hosts/rust];
+    
+    # nixosConfigurations = {
+    #   rust = nixpkgs.lib.nixosSystem {
+	  #     specialArgs = { inherit inputs outputs;};
+	  #     modules = [
+    #       ./hosts/rust
+    #       inputs.disko.nixosModules.disko
+    #     ];
+    #   };
+    # };
+    colmena = {
+      meta = {
+        nixpkgs = import nixpkgs {
+          system = "x86_64-linu";
+        }
+        specialArgs = { 
+          inherit inputs outputs stateVersion;
+        };
+      };
+      rust = {
+        deployment = {
+          targetHost = "rust"
+          targetUser = "piotr"
+          tags = [ "linux" "vm" ];
+        };
+        imports = [
+          ./hosts/rust
+          inputs.disko.nixosModules.disko
+          # agenix.nixosModules.default
+        ]
       };
     };
+
+    # darwinConfigurations = {
+    #   starship = nixpkgs.lib.nixosSystem {
+    #     specialArgs = { inherit inputs outputs;};
+    #     modules = [
+    #       ./hosts/starship
+    #     ];
+    #   };
+    # };
+
+    colmena = {
+      meta = {
+        nixpkgs = import nixpkgs {
+          system = "aarch64-darwin";
+        }
+        specialArgs = { 
+          inherit inputs outputs stateVersion;
+        };
+      };
+      starship = {
+        deployment = {
+          targetHost = "starship"
+          targetUser = "piotr"
+          tags = [ "macos" ];
+        };
+        imports = [
+          ./hosts/starship
+          # agenix.nixosModules.default
+        ]
+      };
+    };
+
     homeConfigurations = {
       ## ------------------------------------
       ## RUST | TEST VM & DOCKER HOST @ MARS
@@ -127,10 +202,24 @@
       ## STARSHIP | MACBOOK PRO 14 PRO M1
       ## ---------------------------------
 
-      # "piotr@starship" = home-manager.lib.homeManagerConfiguration {
+      "piotr@starship" = home-manager.lib.homeManagerConfiguration {
+      	  pkgs = nixpkgs.legacyPackages."aarch64-darwin";
+      	  extraSpecialArgs = {inherit inputs outputs;};
+      	  modules = [./home/piotr/starship.nix];
+        backupFileExtension = "backup";
+      };
+
+      # "krzysztof@starship" = home-manager.lib.homeManagerConfiguration {
       #	  pkgs = nixpkgs.legacyPackages."aarch64-darwin";
       #	  extraSpecialArgs = {inherit inputs outputs;};
-      #	  modules = [./home/piotr/starship.nix];
+      #	  modules = [./home/krzysztof/starship.nix];
+      #   backupFileExtension = "backup";
+      #};
+
+      # "jagoda@starship" = home-manager.lib.homeManagerConfiguration {
+      #	  pkgs = nixpkgs.legacyPackages."aarch64-darwin";
+      #	  extraSpecialArgs = {inherit inputs outputs;};
+      #	  modules = [./home/jagoda/starship.nix];
       #   backupFileExtension = "backup";
       #};
 
@@ -142,6 +231,13 @@
       #	  pkgs = nixpkgs.legacyPackages."aarch64-linux";
       #	  extraSpecialArgs = {inherit inputs outputs;};
       #	  modules = [./home/piotr/shuttle.nix];
+      #   backupFileExtension = "backup";
+      #};
+
+      # "krzysztof@shuttle" = home-manager.lib.homeManagerConfiguration {
+      #	  pkgs = nixpkgs.legacyPackages."aarch64-linux";
+      #	  extraSpecialArgs = {inherit inputs outputs;};
+      #	  modules = [./home/krzysztof/shuttle.nix];
       #   backupFileExtension = "backup";
       #};
 

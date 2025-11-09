@@ -66,7 +66,6 @@
     btop # resource monitor
     diffr # side-by-side diff viewer
     drill # fast data extraction tool
-    du-dust # disk usage analyzer
     dua # disk usage analyzer
     duf # disk usage utility
     entr # file watcher and command runner

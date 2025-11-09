@@ -2,19 +2,23 @@
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, stateVersion... }:
 
 {
   imports =
     [ # Include the results of the hardware scan.
+      ./disko-config.nix
       ./hardware-configuration.nix
       # ./docker/docker.nix # contains list of docker containers settings in separate nix files, which are running as systemclt services using podman
     ];
 
   # Use the GRUB 2 boot loader.
-  boot.loader.grub.enable = true;
-  boot.loader.grub.device = "/dev/sda";
-  boot.loader.grub.useOSProber = true;
+  # boot.loader.grub.enable = true;
+  # boot.loader.grub.device = "/dev/sda";
+  # boot.loader.grub.useOSProber = true;
+  # moving over to systemd-boot
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
 
   # boot.loader.grub.efiSupport = true;
   # boot.loader.grub.efiInstallAsRemovable = true;
@@ -102,6 +106,13 @@
     packages = with pkgs; [];
   };
 
+  security = {
+    sudo = {
+      # wheelNeedsPassword = false; # set to true to require password when using sudo
+      extraConfig = "piotr ALL=(ALL) NOPASSWD: ALL"; # allow piotr to use sudo without password
+    };
+  };
+
   ##----------------------------------------------------------
   ## PROGRAMS & PACKAGES
   ##----------------------------------------------------------
@@ -115,6 +126,8 @@
     #   xwayland.enable = false;
     # };
   };
+
+  hardware.logitech.wireless.enable = true; # enable Logitech wireless devices support
 
   environment.systemPackages = with pkgs; [
     neovim
@@ -186,7 +199,7 @@
   # and migrated your data accordingly.
   #
   # For more information, see `man configuration.nix` or https://nixos.org/manual/nixos/stable/options#opt-system.stateVersion .
-  system.stateVersion = "25.05"; # Did you read the comment?
+  system.stateVersion = stateVersion; # Did you read the comment?
 
 }
 

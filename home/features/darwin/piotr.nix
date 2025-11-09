@@ -3,24 +3,10 @@ let
   inherit (inputs) nixpkgs nixpkgs-unstable;
 in
 {
-  users.users.piotrbielaska.home = "/Users/piotrbielaska";
-
-  nix = {
-    settings = {
-      experimental-features = [ "nix-command" "flakes" ];
-      warn-dirty = false;
-    };
-    channel.enable = false;
-  };
-  system.stateVersion = 5;
+  users.users.piotr.home = "/Users/piotr"; 
 
   # Set primary user for system-wide activation
-  system.primaryUser = "piotrbielaska";
-
-  nixpkgs = {
-    config.allowUnfree = true;
-    hostPlatform = lib.mkDefault "${system}";
-  };
+  system.primaryUser = "piotr"; 
 
   environment.systemPackages = with pkgs; [
     ## unstable
@@ -29,22 +15,29 @@ in
     # unstablePkgs.warp-terminal
 
     ## stable CLI
-    pkgs.comma
-    # pkgs.hcloud
-    pkgs.just
-    pkgs.lima
-    pkgs.nix
-    pkgs.nodejs
-    pkgs.pass
-    pkgs.libredwg
+    pkgs.comma # CLI for git
+    pkgs.just # command runner
+    # pkgs.lima # Linux virtual machines
+    pkgs.nix # package manager
+    pkgs.nodejs # JavaScript runtime
+    pkgs.libredwg # DWG file converter
+    pkgs.picard # music tagger
+    # pkgs.ferium # alt minecraft mods manager
+    pkgs.karabiner-elements # keyboard customizer
+    pkgs.tailscale # VPN
+    pkgs.obsidian # note taking app
+    pkgs.raycast # productivity app launcher
+    pkgs.signal-desktop-bin # secure messaging app
+    pkgs.warp-terminal # modern terminal
+    pkgs.synology-drive-client # synology file sync client
   ];
 
-  fonts.packages = [
-    pkgs.nerd-fonts.fira-code
-    pkgs.nerd-fonts.fira-mono
-    pkgs.nerd-fonts.hack
-    pkgs.nerd-fonts.jetbrains-mono
-  ];
+  # fonts.packages = [  # moved to features/desktop/fonts.nix
+  #   pkgs.nerd-fonts.fira-code
+  #   pkgs.nerd-fonts.fira-mono
+  #   pkgs.nerd-fonts.hack
+  #   pkgs.nerd-fonts.jetbrains-mono
+  # ];
 
   # pins to stable as unstable updates very often
   nix.registry = {
@@ -79,7 +72,7 @@ in
       #"bitwarden-cli"
       "neovim"
       #"ollama"
-      "tailscale"
+      #"tailscale"
       #"borders"
     ];
     taps = [
@@ -113,12 +106,12 @@ in
       "freecad"
       #"firefox"
       #"flameshot"
-      "font-fira-code"
-      "font-fira-code-nerd-font"
-      "font-fira-mono-for-powerline"
-      "font-hack-nerd-font"
-      "font-jetbrains-mono-nerd-font"
-      "font-meslo-lg-nerd-font"
+      #"font-fira-code"
+      #"font-fira-code-nerd-font"
+      #"font-fira-mono-for-powerline"
+      #"font-hack-nerd-font"
+      #"font-jetbrains-mono-nerd-font"
+      #"font-meslo-lg-nerd-font"
       #"ghostty"
       #"google-chrome"
       "hazel"
@@ -127,20 +120,20 @@ in
       #"istat-menus"
       #"iterm2"
       #"jordanbaird-ice"
-      "karabiner-elements"
+      #"karabiner-elements"
       "keyclu"
       "ledger-live"
       #"lm-studio"
       "logi-options+"
       #"macwhisper"
       #"marta"
-      "mqtt-explorer"
-      "minecraft"
+      #"mqtt-explorer"
+      #"minecraft"
       #"music-decoy" # github/FuzzyIdeas/MusicDecoy
       #"nextcloud"
       #"notion"
       #"obs"
-      "obsidian"
+      #"obsidian"
       #"ollama-app"
       #"omnidisksweeper"
       #"orbstack"
@@ -149,14 +142,14 @@ in
       #"plexamp"
       #"popclip"
       #"prusaslicer"
-      "raycast"
-      "signal"
+      #"raycast"
+      #"signal"
       #"shortcat"
       #"slack"
       #"spotify"
       #"steam"
-      "synology-drive"
-      "warp"
+      #"synology-drive"
+      #"warp"
       #"wireshark"
       #"viscosity"
       #"visual-studio-code"

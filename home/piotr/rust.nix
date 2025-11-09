@@ -1,9 +1,10 @@
 { config, pkgs, ... }: { 
   imports = [
-    ./home.nix 
+    ./home.nix
+    ./dotfiles
     ../common
     ../features/cli
-    # ../features/desktop
+    ../features/desktop
     # ../features/games
     # ../features/docker
   ]; 
@@ -17,9 +18,10 @@
       tmux.enable = true;
       starship.enable = true;
     };
-    # desktop = {
+    desktop = {
     #   wayland.enable = true;
-    # };
+      fonts.enable = true;
+    };
     # games = {
     #   steam.enable = true;
     #   minecraft.enable = true;

@@ -3,7 +3,7 @@
 {
 
   imports = [
-    ./common.nix
+    ./piotr.nix
   ];
 
   # specify programs to be installed system-wide

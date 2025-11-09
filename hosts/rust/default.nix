@@ -1,4 +1,7 @@
 {
-  imports = [../common ./configuration.nix];
+  imports = [
+    ../common 
+    ./configuration.nix 
+  ];
 }
 

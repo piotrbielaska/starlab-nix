@@ -1,3 +1,9 @@
 {
-  imports = [ ./piotr.nix ];
+  imports = [ 
+    ./piotr.nix
+#    ./jagoda.nix
+#    ./krzysztof.nix
+#    ./marianna.nix
+#    ./stanislaw.nix
+  ];
 }

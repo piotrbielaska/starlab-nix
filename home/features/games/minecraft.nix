@@ -11,6 +11,7 @@ with lib; let
     config = mkIf cfg.enable {
       home.packages = with pkgs; [
         minecraft
+        pakku # minecraft mods manager with versioning
       ];
     };
   }

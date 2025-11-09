@@ -1,6 +1,7 @@
 { config, pkgs, ... }: { 
   imports = [
     ./home.nix 
+    ./dotfiles
     ../common
     ../features/cli
     ../features/games
@@ -14,6 +15,9 @@
       neofetch.enable = true;
       neovim.enable = true;
       starship.enable = true;
+    };
+    desktop = {
+      fonts.enable = true;
     };
     games = {
       minecraft.enable = true;

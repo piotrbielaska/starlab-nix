@@ -4,9 +4,6 @@
   pkgs, 
   ... 
 }: 
-  
-{
-
 with lib; let
   cfg = config.features.desktop.wayland;
   in {
@@ -244,10 +241,8 @@ with lib; let
               border-right: 0px;
               margin-left: 0px;
           }
-        ''
-        }
+        '';
       };
-    }
 
     config = mkIf cfg.enable {
       home.packages = with pkgs; [
@@ -272,5 +267,5 @@ with lib; let
         warp-terminal # a modern terminal emulator
       ];
     };
-  }
+  };
 }
