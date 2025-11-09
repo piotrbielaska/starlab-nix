@@ -6,7 +6,6 @@
     ../features/cli
     ../features/desktop
     # ../features/games
-    # ../features/docker
   ]; 
 
   features = {

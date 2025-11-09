@@ -52,6 +52,7 @@
     self,
     # age-nix
     disko,
+    colmena,
     home-manager,
     nixpkgs,
     nixpkgs-stable,
@@ -71,11 +72,14 @@
     packages =
       forAllSystems (system: import ./pkgs nixpkgs.legacyPackages.${system});
     overlays = import ./overlays {inherit inputs;};
+
+    # find how to remove colmena warning about unknown flake output
+
     
     colmena = { # use to simplify deployment to remote hosts
       meta = {
         nixpkgs = import nixpkgs {
-          system = "x86_64-linu";
+          system = "x86_64-linux";
         };
         specialArgs = { 
           inherit inputs outputs stateVersion;
