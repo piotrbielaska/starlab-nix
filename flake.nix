@@ -31,10 +31,10 @@
     #   inputs.nixpkgs.follows = "nixpkgs";
     # };
 
-    # age-nix = { # use to manage secrets
-    #   url = "github:Mic92/sops-nix";
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    # };
+    agenix = { # use to manage secrets
+      url = "github:ryantm/agenix";
+      # inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     disko = {
       url = "github:nix-community/disko";
@@ -50,7 +50,7 @@
 
   outputs = {
     self,
-    # age-nix
+    agenix,
     disko,
     colmena,
     home-manager,
@@ -74,9 +74,9 @@
     overlays = import ./overlays {inherit inputs;};
 
     # find how to remove colmena warning about unknown flake output
-
+    # colmenaHive = colmena.lib.makeHive self.outputs.colmena;
     
-    colmena = { # use to simplify deployment to remote hosts
+    colmenaHive = colmena.lib.makeHive { # use to simplify deployment to remote hosts
       meta = {
         nixpkgs = import nixpkgs {
           system = "x86_64-linux";
@@ -98,6 +98,7 @@
       };
       rust = {
         deployment = {
+          # buildOnTarget = true; # if you want it to build config on target host
           targetHost = "rust";
           targetUser = "piotr";
           tags = [ "linux" "vm" ];
@@ -105,18 +106,19 @@
         imports = [
           ./hosts/rust
           inputs.disko.nixosModules.disko
-          # agenix.nixosModules.default
+          agenix.nixosModules.default
         ];
       };
       starship = {
         deployment = {
-          targetHost = "starship";
+          allowLocalDeployment = true;
+          targetHost = null; # local deploy only with colmena apply-local
           targetUser = "piotr";
           tags = [ "macos" ];
         };
         imports = [
           ./hosts/starship
-          # agenix.nixosModules.default
+          agenix.nixosModules.default
         ];
       };
     };
@@ -129,6 +131,7 @@
 	      modules = [
           ./hosts/rust
           inputs.disko.nixosModules.disko
+          agenix.nixosModules.default
         ];
       };
     };
@@ -140,6 +143,7 @@
         };
         modules = [
           ./hosts/starship
+          agenix.nixosModules.default
         ];
       };
     };
