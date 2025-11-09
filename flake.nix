@@ -26,7 +26,12 @@
       url = "github:zhaofengli/colmena";
     };
 
-    # sops-nix = {
+    # sops-nix = { # use to manage secrets (alternative to age-nix)
+    #   url = "github:Mic92/sops-nix";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
+
+    # age-nix = { # use to manage secrets
     #   url = "github:Mic92/sops-nix";
     #   inputs.nixpkgs.follows = "nixpkgs";
     # };
@@ -45,6 +50,7 @@
 
   outputs = {
     self,
+    # age-nix
     disko,
     home-manager,
     nixpkgs,
@@ -66,6 +72,51 @@
       forAllSystems (system: import ./pkgs nixpkgs.legacyPackages.${system});
     overlays = import ./overlays {inherit inputs;};
     
+    colmena = { # use to simplify deployment to remote hosts
+      meta = {
+        nixpkgs = import nixpkgs {
+          system = "x86_64-linu";
+        };
+        specialArgs = { 
+          inherit inputs outputs stateVersion;
+        };
+        nodeNixpkgs = {
+          starship = import nixpkgs-stable {
+            system = "aarch64-darwin";
+          };
+          # mercury = import nixpkgs-stable {
+          #   system = "aarch64-linux";
+          # };
+          # shuttle = import nixpkgs-stable {
+          #   system = "aarch64-linux";
+          # };
+        };
+      };
+      rust = {
+        deployment = {
+          targetHost = "rust";
+          targetUser = "piotr";
+          tags = [ "linux" "vm" ];
+        };
+        imports = [
+          ./hosts/rust
+          inputs.disko.nixosModules.disko
+          # agenix.nixosModules.default
+        ];
+      };
+      starship = {
+        deployment = {
+          targetHost = "starship";
+          targetUser = "piotr";
+          tags = [ "macos" ];
+        };
+        imports = [
+          ./hosts/starship
+          # agenix.nixosModules.default
+        ];
+      };
+    };
+
     # nixosConfigurations = {
     #   rust = nixpkgs.lib.nixosSystem {
 	  #     specialArgs = { inherit inputs outputs;};
@@ -75,28 +126,6 @@
     #     ];
     #   };
     # };
-    colmena = {
-      meta = {
-        nixpkgs = import nixpkgs {
-          system = "x86_64-linu";
-        }
-        specialArgs = { 
-          inherit inputs outputs stateVersion;
-        };
-      };
-      rust = {
-        deployment = {
-          targetHost = "rust"
-          targetUser = "piotr"
-          tags = [ "linux" "vm" ];
-        };
-        imports = [
-          ./hosts/rust
-          inputs.disko.nixosModules.disko
-          # agenix.nixosModules.default
-        ]
-      };
-    };
 
     # darwinConfigurations = {
     #   starship = nixpkgs.lib.nixosSystem {
@@ -106,28 +135,6 @@
     #     ];
     #   };
     # };
-
-    colmena = {
-      meta = {
-        nixpkgs = import nixpkgs {
-          system = "aarch64-darwin";
-        }
-        specialArgs = { 
-          inherit inputs outputs stateVersion;
-        };
-      };
-      starship = {
-        deployment = {
-          targetHost = "starship"
-          targetUser = "piotr"
-          tags = [ "macos" ];
-        };
-        imports = [
-          ./hosts/starship
-          # agenix.nixosModules.default
-        ]
-      };
-    };
 
     homeConfigurations = {
       ## ------------------------------------
