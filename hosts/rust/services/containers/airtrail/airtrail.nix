@@ -1,9 +1,9 @@
 {
-  {
+
+
   imports = [
     ./airtrail_db.nix
   ];
-  }
 
   virtualisation.oci-containers.containers."airtrail" = {
     image = "johly/airtrail:latest";
