@@ -10,7 +10,7 @@
     environment = {
       "POSTGRES_AIRTRAIL_DB" = "airtrail_db";
       "POSTGRES_AIRTRAIL_USER" = "airtrail_user";
-      "POSTGRES_AIRTRAIL_PASSWORD" = $AIRTRAIL_PASSWORD; # secured with agenix
+      "POSTGRES_AIRTRAIL_PASSWORD" = "$AIRTRAIL_PASSWORD"; # secured with agenix
     };
     volumes = [
       "/opt/containers/airtrail/airtrail_db:/var/lib/postgresql/data"
