@@ -19,7 +19,6 @@
       "APPLICATION_HOSTS" = "localhost https://location.bielaska.cloud";
       "APPLICATION_PROTOCOL" = "http";
       "DATABASE_HOST" = "dawarich_db";
-      "DATABASE_PORT" = "5433";
       "DATABASE_NAME" = "dawarich_development";
       "DATABASE_PASSWORD" = "$DAWARICH_PASSWORD"; # secured with agenix
       "DATABASE_USERNAME" = "postgres";

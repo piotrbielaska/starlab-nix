@@ -8,7 +8,7 @@
 {
   virtualisation.oci-containers.containers."dawarich_db" = {
     image = "postgres:16-alpine";
-    ports = [ "5433:5433" ];
+    ports = [ "5433:5432" ];
     environment = {
       "POSTGRES_DAWARICH_DB" = "dawarich_development";
       "POSTGRES_DAWARICH_USER" = "postgres";
