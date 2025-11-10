@@ -32,7 +32,7 @@
       "--network=airtrail_network"
     ];
     environment = {
-      "ORIGINS" = "http://rust:3001 https://flights.bielaska.cloud";
+      "ORIGINS" = "http://10.9.100.94:3001 http://rust:3001 https://flights.bielaska.cloud";
       "DB_URL" = "postgres://atuser:atpassword@airtrail_db:5432/airtrail_user";
     };
   };
