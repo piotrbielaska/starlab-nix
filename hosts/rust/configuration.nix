@@ -13,18 +13,18 @@
 {
   imports =
     [ # Include the results of the hardware scan.
-      ./disko-config.nix
+      # ./disko-config.nix
       ./hardware-configuration.nix
     ];
 
   # Use the GRUB 2 boot loader.
-  # boot.loader.grub.enable = true;
-  # boot.loader.grub.device = "/dev/sda";
-  # boot.loader.grub.useOSProber = true;
+  boot.loader.grub.enable = true;
+  boot.loader.grub.device = "/dev/sda";
+  boot.loader.grub.useOSProber = true;
 
   # moving over to systemd-boot
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+  # boot.loader.systemd-boot.enable = true;
+  # boot.loader.efi.canTouchEfiVariables = true;
 
   # boot.loader.grub.efiSupport = true;
   # boot.loader.grub.efiInstallAsRemovable = true;
@@ -120,7 +120,7 @@
   };
 
   nix.settings.trusted-users = [ "piotr" ];
-  
+
   ##----------------------------------------------------------
   ## PROGRAMS & PACKAGES
   ##----------------------------------------------------------
