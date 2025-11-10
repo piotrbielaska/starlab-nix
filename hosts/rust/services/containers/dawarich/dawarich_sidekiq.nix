@@ -49,4 +49,28 @@
     ];
   };
   
+  systemd.services."podman-dawarich_sidekiq" = {
+    serviceConfig = {
+      Restart = lib.mkOverride 90 "on-failure";
+    };
+    after = [
+      "podman-network-dawarich.service"
+      "podman-volume-dawarich_public.service"
+      "podman-volume-dawarich_storage.service"
+      "podman-volume-dawarich_watched.service"
+    ];
+    requires = [
+      "podman-network-dawarich.service"
+      "podman-volume-dawarich_public.service"
+      "podman-volume-dawarich_storage.service"
+      "podman-volume-dawarich_watched.service"
+    ];
+    partOf = [
+      "podman-compose-dawarich.target"
+    ];
+    wantedBy = [
+      "podman-compose-dawarich.target"
+    ];
+  };
+
 }

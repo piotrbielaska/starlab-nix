@@ -1,5 +1,7 @@
 { 
   config,
+  lib,
+  pkgs,
   ...
 }:
 
@@ -8,8 +10,8 @@
     image = "postgres:16-alpine";
     ports = [ "5432:5432" ];
     environment = {
-      "POSTGRES_DAWARICH_DB" = "dawarich_db";
-      "POSTGRES_DAWARICH_USER" = "dawarich_user";
+      "POSTGRES_DAWARICH_DB" = "dawarich_development";
+      "POSTGRES_DAWARICH_USER" = "postgres";
       "POSTGRES_DAWARICH_PASSWORD" = "$DAWARICH_PASSWORD"; # secured with agenix
     };
     volumes = [
@@ -31,4 +33,27 @@
       config.age.secrets.secret_rust.path
     ];
   };
+
+  systemd.services."podman-dawarich_db" = {
+    serviceConfig = {
+      Restart = lib.mkOverride 90 "always";
+    };
+    after = [
+      "podman-network-dawarich.service"
+      "podman-volume-dawarich_db.service"
+      "podman-volume-dawarich_shared.service"
+    ];
+    requires = [
+      "podman-network-dawarich.service"
+      "podman-volume-dawarich_db.service"
+      "podman-volume-dawarich_shared.service"
+    ];
+    partOf = [
+      "podman-compose-dawarich.target"
+    ];
+    wantedBy = [
+      "podman-compose-dawarich.target"
+    ];
+  };
+
 }

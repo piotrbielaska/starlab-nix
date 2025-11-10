@@ -19,9 +19,9 @@
       "APPLICATION_HOSTS" = "localhost";
       "APPLICATION_PROTOCOL" = "http";
       "DATABASE_HOST" = "dawarich_db";
-      "DATABASE_NAME" = "dawarich_db";
+      "DATABASE_NAME" = "dawarich_development";
       "DATABASE_PASSWORD" = "$DAWARICH_PASSWORD"; # secured with agenix
-      "DATABASE_USERNAME" = "dawarich_user";
+      "DATABASE_USERNAME" = "postgres";
       "MIN_MINUTES_SPENT_IN_CITY" = "60";
       "PROMETHEUS_EXPORTER_ENABLED" = "false";
       "PROMETHEUS_EXPORTER_HOST" = "0.0.0.0";
@@ -62,10 +62,117 @@
     ];
   };
 
-  system.activationScripts.createPodmanNetworkDawarich = lib.mkAfter ''
-    if ! /run/current-system/sw/bin/podman network exists dawarich_network; then
-      /run/current-system/sw/bin/podman network create dawarich_network
-    fi 
-  '';
+  systemd.services."podman-dawarich" = {
+    serviceConfig = {
+      Restart = lib.mkOverride 90 "on-failure";
+    };
+    after = [
+      "podman-network-dawarich.service"
+      "podman-volume-dawarich_db.service"
+      "podman-volume-dawarich_public.service"
+      "podman-volume-dawarich_storage.service"
+      "podman-volume-dawarich_watched.service"
+    ];
+    requires = [
+      "podman-network-dawarich.service"
+      "podman-volume-dawarich_db_.service"
+      "podman-volume-dawarich_public.service"
+      "podman-volume-dawarich_storage.service"
+      "podman-volume-dawarich_watched.service"
+    ];
+    partOf = [
+      "podman-compose-dawarich.target"
+    ];
+    wantedBy = [
+      "podman-compose-dawarich.target"
+    ];
+  };
+
+  # Networks
+  systemd.services."podman-network-dawarich" = {
+    path = [ pkgs.podman ];
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+      ExecStop = "podman network rm -f dawarich"
+      ;
+    };
+    script = ''
+      podman network inspect dawarich || podman network create dawarich
+    '';
+    partOf = [ "podman-compose-dawarich.target" ];
+    wantedBy = [ "podman-compose-dawarich.target" ];
+  };
+
+  # Volumes
+  systemd.services."podman-volume-dawarich_db" = {
+    path = [ pkgs.podman ];
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+    };
+    script = ''
+      podman volume inspect dawarich_db || podman volume create dawarich_db
+    '';
+    partOf = [ "podman-compose-dawarich.target" ];
+    wantedBy = [ "podman-compose-dawarich.target" ];
+  };
+  systemd.services."podman-volume-dawarich_public" = {
+    path = [ pkgs.podman ];
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+    };
+    script = ''
+      podman volume inspect dawarich_public || podman volume create dawarich_public
+    '';
+    partOf = [ "podman-compose-dawarich.target" ];
+    wantedBy = [ "podman-compose-dawarich.target" ];
+  };
+  systemd.services."podman-volume-dawarich_shared" = {
+    path = [ pkgs.podman ];
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+    };
+    script = ''
+      podman volume inspect dawarich_shared || podman volume create dawarich_shared
+    '';
+    partOf = [ "podman-compose-dawarich.target" ];
+    wantedBy = [ "podman-compose-dawarich.target" ];
+  };
+  systemd.services."podman-volume-dawarich_storage" = {
+    path = [ pkgs.podman ];
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+    };
+    script = ''
+      podman volume inspect dawarich_storage || podman volume create dawarich_storage
+    '';
+    partOf = [ "podman-compose-dawarich.target" ];
+    wantedBy = [ "podman-compose-dawarich.target" ];
+  };
+  systemd.services."podman-volume-dawarich_watched" = {
+    path = [ pkgs.podman ];
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+    };
+    script = ''
+      podman volume inspect dawarich_watched || podman volume create dawarich_watched
+    '';
+    partOf = [ "podman-compose-dawarich.target" ];
+    wantedBy = [ "podman-compose-dawarich.target" ];
+  };
+
+  # When started, this will automatically create all resources and start
+  # the containers. When stopped, this will teardown all resources.
+  systemd.targets."podman-compose-dawarich" = {
+    unitConfig = {
+      Description = "Dawarich App Podman Compose Stack";
+    };
+    wantedBy = [ "multi-user.target" ];
+  };
 
 }
