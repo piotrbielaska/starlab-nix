@@ -73,7 +73,6 @@
       "podman-volume-dawarich_public.service"
       "podman-volume-dawarich_storage.service"
       "podman-volume-dawarich_watched.service"
-      "podman-dawarich_db.service"
     ];
     requires = [
       "podman-network-dawarich.service"
@@ -81,7 +80,6 @@
       "podman-volume-dawarich_public.service"
       "podman-volume-dawarich_storage.service"
       "podman-volume-dawarich_watched.service"
-      "podman-dawarich_db.service"
     ];
     partOf = [
       "podman-compose-dawarich.target"
