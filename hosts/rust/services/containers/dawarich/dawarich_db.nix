@@ -10,10 +10,10 @@
     image = "postgres:17-alpine";
     ports = [ "5433:5432" ];
     environment = {
-      "POSTGRES_DAWARICH_DB" = "dawarich_development";
-      "POSTGRES_DAWARICH_USER" = "postgres";
-      "POSTGRES_DAWARICH_PASSWORD" = "segment-delusion-idealism";
-      #"POSTGRES_DAWARICH_PASSWORD" = "$DAWARICH_PASSWORD"; # secured with agenix
+      "POSTGRES_DB" = "dawarich_development";
+      "POSTGRES_USER" = "postgres";
+      #"POSTGRES_PASSWORD" = "segment-delusion-idealism";
+      "POSTGRES_PASSWORD" = "$DAWARICH_PASSWORD"; # secured with agenix
     };
     volumes = [
       "dawarich_db:/var/lib/postgresql/data"
