@@ -33,7 +33,7 @@
       "podman-volume-dawarich_shared.service"
     ];
     requires = [
-      "podman-network-dawarich_dawarich.service"
+      "podman-network-dawarich.service"
       "podman-volume-dawarich_shared.service"
     ];
     partOf = [
