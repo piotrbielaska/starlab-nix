@@ -12,11 +12,11 @@
     environment = {
       "APPLICATION_HOSTS" = "localhost https://location.bielaska.cloud";
       "APPLICATION_PROTOCOL" = "http";
-      "DATABASE_HOST" = "dawarich_db";
-      "DATABASE_NAME" = "dawarich_development";
-      #"DATABASE_PASSWORD" = "password;
+      "DATABASE_HOST" = "postgres:10.9.100.94";
+      "DATABASE_NAME" = "dawarich_db";
+      # "DATABASE_PASSWORD" = "password";
       "DATABASE_PASSWORD" = "$DAWARICH_PASSWORD"; # secured with agenix
-      "DATABASE_USERNAME" = "postgres";
+      "DATABASE_USERNAME" = "dawarich";
       "PROMETHEUS_EXPORTER_ENABLED" = "false";
       "PROMETHEUS_EXPORTER_HOST" = "dawarich";
       "PROMETHEUS_EXPORTER_PORT" = "9394";

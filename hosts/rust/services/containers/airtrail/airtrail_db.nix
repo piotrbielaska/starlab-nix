@@ -8,7 +8,7 @@
 {
   virtualisation.oci-containers.containers."airtrail_db" = {
     image = "postgres:16-alpine";
-    ports = [ "5432:5432" ];
+    ports = [ "5433:5432" ];
     environment = {
       "POSTGRES_AIRTRAIL_DB" = "airtrail_db";
       "POSTGRES_AIRTRAIL_USER" = "airtraildb";

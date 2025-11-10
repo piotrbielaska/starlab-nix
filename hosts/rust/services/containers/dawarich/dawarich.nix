@@ -8,7 +8,7 @@
 {
 
   imports = [
-    ./dawarich_db.nix
+    # ./dawarich_db.nix
     ./dawarich_redis.nix
     ./dawarich_sidekiq.nix
   ];
@@ -18,11 +18,11 @@
     environment = {
       "APPLICATION_HOSTS" = "localhost https://location.bielaska.cloud";
       "APPLICATION_PROTOCOL" = "http";
-      "DATABASE_HOST" = "dawarich_db";
-      "DATABASE_NAME" = "dawarich_development";
-      #"DATABASE_PASSWORD" = "password";
+      "DATABASE_HOST" = "postgres:10.9.100.94";
+      "DATABASE_NAME" = "dawarich_db";
+      # "DATABASE_PASSWORD" = "password";
       "DATABASE_PASSWORD" = "$DAWARICH_PASSWORD"; # secured with agenix
-      "DATABASE_USERNAME" = "postgres";
+      "DATABASE_USERNAME" = "dawarich";
       "MIN_MINUTES_SPENT_IN_CITY" = "60";
       "PROMETHEUS_EXPORTER_ENABLED" = "false";
       "PROMETHEUS_EXPORTER_HOST" = "0.0.0.0";
@@ -42,7 +42,7 @@
     ports = [ "3000:3000/tcp"];
     cmd = [ "bin/rails" "server" "-p" "3000" "-b" "::" ];
     dependsOn = [
-      "dawarich_db"
+      # "dawarich_db"
       "dawarich_redis"
     ];
     log-driver = "journald";
@@ -69,14 +69,14 @@
     };
     after = [
       "podman-network-dawarich.service"
-      "podman-volume-dawarich_db.service"
+      # "podman-volume-dawarich_db.service"
       "podman-volume-dawarich_public.service"
       "podman-volume-dawarich_storage.service"
       "podman-volume-dawarich_watched.service"
     ];
     requires = [
       "podman-network-dawarich.service"
-      "podman-volume-dawarich_db.service"
+      # "podman-volume-dawarich_db.service"
       "podman-volume-dawarich_public.service"
       "podman-volume-dawarich_storage.service"
       "podman-volume-dawarich_watched.service"
@@ -106,18 +106,18 @@
   };
 
   # Volumes
-  systemd.services."podman-volume-dawarich_db" = {
-    path = [ pkgs.podman ];
-    serviceConfig = {
-      Type = "oneshot";
-      RemainAfterExit = true;
-    };
-    script = ''
-      podman volume inspect dawarich_db || podman volume create dawarich_db
-    '';
-    partOf = [ "podman-compose-dawarich.target" ];
-    wantedBy = [ "podman-compose-dawarich.target" ];
-  };
+  # systemd.services."podman-volume-dawarich_db" = {
+  #   path = [ pkgs.podman ];
+  #   serviceConfig = {
+  #     Type = "oneshot";
+  #     RemainAfterExit = true;
+  #   };
+  #   script = ''
+  #     podman volume inspect dawarich_db || podman volume create dawarich_db
+  #   '';
+  #   partOf = [ "podman-compose-dawarich.target" ];
+  #   wantedBy = [ "podman-compose-dawarich.target" ];
+  # };
   systemd.services."podman-volume-dawarich_public" = {
     path = [ pkgs.podman ];
     serviceConfig = {

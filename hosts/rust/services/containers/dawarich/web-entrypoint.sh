@@ -48,10 +48,10 @@ create_database() {
   # Wait for the database to become available
   echo "⏳ Waiting for Dawarich DB $db_name to be ready..."
   until PGPASSWORD=$db_password psql -h "$db_host" -p "$db_port" -U "$db_username" -d "$db_name" -c '\q' 2>/dev/null; do
-    >&2 echo "Dawarich DB (PostgreSQL) database $db_name is unavailable - retrying..."
+    >&2 echo "PostgreSQL database $db_name is unavailable - retrying..."
     sleep 2
   done
-  echo "✅ Dawarich DB (PostgreSQL) database $db_name is ready!"
+  echo "✅ PostgreSQL database $db_name is ready!"
 }
 
 # Step 1: Database Setup
