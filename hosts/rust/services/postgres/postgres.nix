@@ -6,7 +6,7 @@
 {
   services.postgresql = {
     enable = true;
-    enableTCIP = true;
+    enableTCPIP = true;
     package = pkgs.postgresql_16;
     authentication = pkgs.lib.mkOverride 10 ''
       local all all trust
