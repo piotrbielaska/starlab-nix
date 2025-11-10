@@ -18,7 +18,7 @@
     environment = {
       "APPLICATION_HOSTS" = "localhost https://location.bielaska.cloud";
       "APPLICATION_PROTOCOL" = "http";
-      "DATABASE_HOST" = "postgres:10.9.100.94";
+      "DATABASE_HOST" = "host.containers.internal";
       "DATABASE_NAME" = "dawarich_db";
       # "DATABASE_PASSWORD" = "password";
       "DATABASE_PASSWORD" = "$DAWARICH_PASSWORD"; # secured with agenix
@@ -48,6 +48,7 @@
     log-driver = "journald";
     extraOptions = [
       "--cpus=0.5"
+      "--add-host=host.containers.internal:host-gateway"
       "--entrypoint=[\"web-entrypoint.sh\"]"
       "--health-cmd=wget -qO - http://127.0.0.1:3000/api/v1/health | grep -q '\"status\"\\s*:\\s*\"ok\"'"
       "--health-interval=10s"
