@@ -12,9 +12,9 @@ with lib; let
     config = mkIf cfg.enable {
       programs.zsh = {
         enable = true;
-        enableCompletion = true;
-        autosuggestion.enable = true;
-        oh-my-zsh.enable = true;
+        enableCompletion = false;
+        autosuggestion.enable = false;
+        oh-my-zsh.enable = false;
         syntaxHighlighting.enable = true;
         loginExtra = ''
           set -x NIX_PATH nixpkgs=channel:nixos-unstable # set NIX_PATH for nix commands
