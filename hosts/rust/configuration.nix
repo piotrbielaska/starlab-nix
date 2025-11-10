@@ -144,6 +144,7 @@
     curl # file downloader
     tree # directory structure visualizer
     bat # cat clone with syntax highlighting and git integration
+    postgresql17Packages.postgis # Geographic Objects for PostgreSQL
   ];
 
   ##----------------------------------------------------------
