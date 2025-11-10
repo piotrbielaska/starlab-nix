@@ -20,7 +20,7 @@ with lib; let
         #  set -x NIX_PATH nixpkgs=channel:nixos-unstable # set NIX_PATH for nix commands
         #  set -x NIX_LOG info # set NIX_LOG to info for better logging
         #  set -x TERMINAL kitty # set terminal type for kitty
-        '';
+        #'';
         shellAliases = {
           ".." =  "cd .."; # go up one directory
           "..." = "cd ../.."; # go up two directories 
