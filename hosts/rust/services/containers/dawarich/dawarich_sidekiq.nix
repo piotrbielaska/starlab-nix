@@ -33,7 +33,7 @@
     cmd = [ "sidekiq" ];
     dependsOn = [
       "dawarich"
-      "dawarich_db"
+      # "dawarich_db"
       "dawarich_redis"
     ];
     log-driver = "journald";
