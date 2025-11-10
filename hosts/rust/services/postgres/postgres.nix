@@ -25,7 +25,7 @@
   services.postgresqlBackup = {
     enable = true;
     startAt = "03:10:00";
-    databases = ["dawarich_db"]
+    databases = ["dawarich_db"];
   };
 
 }
