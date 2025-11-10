@@ -20,8 +20,8 @@
       "APPLICATION_PROTOCOL" = "http";
       "DATABASE_HOST" = "dawarich_db";
       "DATABASE_NAME" = "dawarich_development";
-      #"DATABASE_PASSWORD" = "password";
-      "DATABASE_PASSWORD" = "$DAWARICH_PASSWORD"; # secured with agenix
+      "DATABASE_PASSWORD" = "segment-delusion-idealism";
+      #"DATABASE_PASSWORD" = "$DAWARICH_PASSWORD"; # secured with agenix
       "DATABASE_USERNAME" = "postgres";
       "MIN_MINUTES_SPENT_IN_CITY" = "60";
       "PROMETHEUS_EXPORTER_ENABLED" = "false";

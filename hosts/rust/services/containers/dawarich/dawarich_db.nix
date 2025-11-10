@@ -12,8 +12,8 @@
     environment = {
       "POSTGRES_DAWARICH_DB" = "dawarich_development";
       "POSTGRES_DAWARICH_USER" = "postgres";
-      #"POSTGRES_DAWARICH_PASSWORD" = "password";
-      "POSTGRES_DAWARICH_PASSWORD" = "$DAWARICH_PASSWORD"; # secured with agenix
+      "POSTGRES_DAWARICH_PASSWORD" = "segment-delusion-idealism";
+      #"POSTGRES_DAWARICH_PASSWORD" = "$DAWARICH_PASSWORD"; # secured with agenix
     };
     volumes = [
       "dawarich_db:/var/lib/postgresql/data"
