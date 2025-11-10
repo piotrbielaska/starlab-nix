@@ -8,7 +8,7 @@
 {
   virtualisation.oci-containers.containers."dawarich_db" = {
     image = "postgres:16-alpine";
-    ports = [ "5432:5432" ];
+    ports = [ "5433:5433" ];
     environment = {
       "POSTGRES_DAWARICH_DB" = "dawarich_development";
       "POSTGRES_DAWARICH_USER" = "postgres";
@@ -20,7 +20,7 @@
     ];
     log-driver = "journald";
     extraOptions = [
-      "--health-cmd=pg_isready -U dawarich_user -d dawarich_db"
+      "--health-cmd=pg_isready -U postgres -d dawarich_development"
       "--health-interval=10s"
       "--health-retries=5"
       "--health-start-period=30s"

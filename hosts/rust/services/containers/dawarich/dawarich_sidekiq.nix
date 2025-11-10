@@ -16,6 +16,7 @@
       "DATABASE_NAME" = "dawarich_development";
       "DATABASE_PASSWORD" = "$DAWARICH_PASSWORD"; # secured with agenix
       "DATABASE_USERNAME" = "postgres";
+      "DATABASE_PORT" = "5433";
       "PROMETHEUS_EXPORTER_ENABLED" = "false";
       "PROMETHEUS_EXPORTER_HOST" = "dawarich";
       "PROMETHEUS_EXPORTER_PORT" = "9394";
