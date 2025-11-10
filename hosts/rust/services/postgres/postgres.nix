@@ -29,4 +29,6 @@
     databases = ["dawarich_db"];
   };
 
+  networking.firewall.allowedTCPPorts = [ 5432 ];
+
 }
