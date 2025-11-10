@@ -16,7 +16,7 @@
   virtualisation.oci-containers.containers."dawarich" = {
     image = "freikin/dawarich:latest";
     environment = {
-      "APPLICATION_HOSTS" = "localhost";
+      "APPLICATION_HOSTS" = "localhost https://location.bielaska.cloud";
       "APPLICATION_PROTOCOL" = "http";
       "DATABASE_HOST" = "dawarich_db";
       "DATABASE_NAME" = "dawarich_development";
