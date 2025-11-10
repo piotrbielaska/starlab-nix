@@ -13,8 +13,8 @@
       "POSTGRES_DAWARICH_PASSWORD" = "$DAWARICH_PASSWORD"; # secured with agenix
     };
     volumes = [
-      "/opt/containers/dawarich/dawarich_db:/var/lib/postgresql/data"
-      "/opt/containers/dawarich/dawarich_shared:/var/shared:rw"
+      "dawarich_db:/var/lib/postgresql/data"
+      "dawarich_shared:/var/shared:rw"
     ];
     log-driver = "journald";
     extraOptions = [

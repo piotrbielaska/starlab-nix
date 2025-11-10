@@ -23,9 +23,9 @@
       "STORE_GEODATA" = "true";
     };
     volumes = [
-      "/opt/containers/dawarich/dawarich_public:/var/app/public:rw"
-      "/opt/containers/dawarich/dawarich_storage:/var/app/storage:rw"
-      "/opt/containers/dawarich/dawarich_watched:/var/app/tmp/imports/watched:rw"
+      "dawarich_public:/var/app/public:rw"
+      "dawarich_storage:/var/app/storage:rw"
+      "dawarich_watched:/var/app/tmp/imports/watched:rw"
     ];
     cmd = [ "sidekiq" ];
     dependsOn = [

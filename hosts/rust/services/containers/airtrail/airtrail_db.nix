@@ -1,6 +1,7 @@
 { 
   config,
   lib,
+  pkgs,
   ...
 }:
 
@@ -49,5 +50,5 @@
       "podman-compose-airtrail.target"
     ];
   };
-  
+
 }

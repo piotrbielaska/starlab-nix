@@ -31,10 +31,10 @@
       "TIME_ZONE" = "Europe/Warsaw";
     };
     volumes = [
-      "/opt/containers/dawarich/dawarich_db:/dawarich_db_data:rw"
-      "/opt/containers/dawarich/dawarich_public:/var/app/public:rw"
-      "/opt/containers/dawarich/dawarich_storage:/var/app/storage:rw"
-      "/opt/containers/dawarich/dawarich_watched:/var/app/tmp/imports/watched:rw"
+      "dawarich_db:/dawarich_db_data:rw"
+      "dawarich_public:/var/app/public:rw"
+      "dawarich_storage:/var/app/storage:rw"
+      "dawarich_watched:/var/app/tmp/imports/watched:rw"
     ];
     ports = [ "3000:3000/tcp"];
     cmd = [ "bin/rails" "server" "-p" "3000" "-b" "::" ];

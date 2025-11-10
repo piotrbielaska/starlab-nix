@@ -2,7 +2,7 @@
   virtualisation.oci-containers.containers."dawarich_redis" = {
     image = "redis:7.4-alpine";
     volumes = [
-      "/opt/containers/dawarich/dawarich_shared:/data:rw"
+      "dawarich_shared:/data:rw"
     ];
     log-driver = "journald";
     extraOptions = [
