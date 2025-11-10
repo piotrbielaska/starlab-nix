@@ -76,7 +76,7 @@
     # find how to remove colmena warning about unknown flake output
     # colmenaHive = colmena.lib.makeHive self.outputs.colmena;
     
-    colmenaHive = colmena.lib.makeHive { # use to simplify deployment to remote hosts
+    colmena = { # use to simplify deployment to remote hosts
       meta = {
         nixpkgs = import nixpkgs {
           system = "x86_64-linux";
@@ -98,7 +98,7 @@
       };
       rust = {
         deployment = {
-          # buildOnTarget = true; # if you want it to build config on target host
+          buildOnTarget = true; # if you want it to build config on target host
           targetHost = "rust";
           targetUser = "piotr";
           tags = [ "linux" "vm" ];

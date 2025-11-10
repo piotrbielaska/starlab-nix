@@ -4,7 +4,7 @@
 
   imports = [
     ./steam.nix
-    ./minecraft.nix
+    ./prismlauncher.nix
   ];
 
   # specify programs to be installed system-wide

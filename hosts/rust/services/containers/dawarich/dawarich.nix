@@ -31,7 +31,7 @@
       "TIME_ZONE" = "Europe/Warsaw";
     };
     volumes = [
-      "/opt/containers/dawarich/dawarich_db_data:/dawarich_db_data:rw"
+      "/opt/containers/dawarich/dawarich_db:/dawarich_db_data:rw"
       "/opt/containers/dawarich/dawarich_public:/var/app/public:rw"
       "/opt/containers/dawarich/dawarich_storage:/var/app/storage:rw"
       "/opt/containers/dawarich/dawarich_watched:/var/app/tmp/imports/watched:rw"
@@ -59,5 +59,11 @@
       config.age.secrets.secret_rust.path
     ];
   };
-  
+
+  system.activationScripts.createPodmanNetworkDawarich = lib.mkAfter ''
+    if ! /run/current-system/sw/bin/podman network exists dawarich_network; then
+      /run/current-system/sw/bin/podman network create dawarich_network
+    fi 
+  '';
+
 }

@@ -1,5 +1,6 @@
 { 
   config,
+  lib,
   ...
 }:
 
@@ -13,7 +14,7 @@
       "POSTGRES_AIRTRAIL_PASSWORD" = "$AIRTRAIL_PASSWORD"; # secured with agenix
     };
     volumes = [
-      "/opt/containers/airtrail/airtrail_db:/var/lib/postgresql/data"
+      "airtrail_db:/var/lib/postgresql/data"
     ];
     log-driver = "journald";
     extraOptions = [
@@ -28,4 +29,25 @@
       config.age.secrets.secret_rust.path
     ];
   };
+
+  systemd.services."podman-airtrail_db" = {
+    serviceConfig = {
+      Restart = lib.mkOverride 90 "always";
+    };
+    after = [
+      "podman-network-airtrail.service"
+      "podman-volume-airtrail_db.service"
+    ];
+    requires = [
+      "podman-network-airtrail.service"
+      "podman-volume-airtrail_db.service"
+    ];
+    partOf = [
+      "podman-compose-airtrail.target"
+    ];
+    wantedBy = [
+      "podman-compose-airtrail.target"
+    ];
+  };
+  
 }
