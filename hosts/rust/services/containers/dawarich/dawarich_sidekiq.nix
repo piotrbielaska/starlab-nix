@@ -14,8 +14,8 @@
       "APPLICATION_PROTOCOL" = "http";
       "DATABASE_HOST" = "dawarich_db";
       "DATABASE_NAME" = "dawarich_development";
-      "DATABASE_PASSWORD" = "password";
-      #"DATABASE_PASSWORD" = "$DAWARICH_PASSWORD"; # secured with agenix
+      #"DATABASE_PASSWORD" = "password";
+      "DATABASE_PASSWORD" = "$DAWARICH_PASSWORD"; # secured with agenix
       "DATABASE_USERNAME" = "postgres";
       "PROMETHEUS_EXPORTER_ENABLED" = "false";
       "PROMETHEUS_EXPORTER_HOST" = "dawarich";
@@ -61,12 +61,14 @@
       "podman-volume-dawarich_public.service"
       "podman-volume-dawarich_storage.service"
       "podman-volume-dawarich_watched.service"
+      "podman-dawarich_db.service"
     ];
     requires = [
       "podman-network-dawarich.service"
       "podman-volume-dawarich_public.service"
       "podman-volume-dawarich_storage.service"
       "podman-volume-dawarich_watched.service"
+      "podman-dawarich_db.service"
     ];
     partOf = [
       "podman-compose-dawarich.target"
