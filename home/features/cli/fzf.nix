@@ -21,7 +21,7 @@ with lib; let
           "bg" = "#282a36"; 
           "hl" = "#bd93f9";
           "fg+ " = "#f8f8f2";
-          "bg+ " = "#44475a";
+          #"bg+ " = "#44475a";
           "hl+ " = "#bd93f9";
           "info" = "#ffb86c";
           "prompt" = "#50fa7b";

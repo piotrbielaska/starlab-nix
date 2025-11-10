@@ -10,12 +10,12 @@
   virtualisation.oci-containers.containers."dawarich_sidekiq" = {
     image = "freikin/dawarich:latest";
     environment = {
-      "APPLICATION_HOSTS" = "localhost";
+      "APPLICATION_HOSTS" = "localhost https://location.bielaska.cloud";
       "APPLICATION_PROTOCOL" = "http";
       "DATABASE_HOST" = "dawarich_db";
-      "DATABASE_NAME" = "dawarich_db";
+      "DATABASE_NAME" = "dawarich_development";
       "DATABASE_PASSWORD" = "$DAWARICH_PASSWORD"; # secured with agenix
-      "DATABASE_USERNAME" = "dawarich_user";
+      "DATABASE_USERNAME" = "postgres";
       "PROMETHEUS_EXPORTER_ENABLED" = "false";
       "PROMETHEUS_EXPORTER_HOST" = "dawarich";
       "PROMETHEUS_EXPORTER_PORT" = "9394";

@@ -12,14 +12,14 @@ with lib; let
     config = mkIf cfg.enable {
       programs.zsh = {
         enable = true;
-        enableCompletion = false;
-        autosuggestion.enable = false;
-        oh-my-zsh.enable = false;
+        enableCompletion = true;
+        autosuggestion.enable = true;
+        oh-my-zsh.enable = true;
         syntaxHighlighting.enable = true;
-        loginExtra = ''
-          set -x NIX_PATH nixpkgs=channel:nixos-unstable # set NIX_PATH for nix commands
-          set -x NIX_LOG info # set NIX_LOG to info for better logging
-          # set -x TERMINAL kitty # set terminal type for kitty
+        #loginExtra = ''
+        #  set -x NIX_PATH nixpkgs=channel:nixos-unstable # set NIX_PATH for nix commands
+        #  set -x NIX_LOG info # set NIX_LOG to info for better logging
+        #  set -x TERMINAL kitty # set terminal type for kitty
         '';
         shellAliases = {
           ".." =  "cd .."; # go up one directory
