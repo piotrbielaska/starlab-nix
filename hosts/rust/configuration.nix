@@ -145,6 +145,7 @@
     tree # directory structure visualizer
     bat # cat clone with syntax highlighting and git integration
     postgresql17Packages.postgis # Geographic Objects for PostgreSQL
+    powertop # power consumption analysis tool
   ];
 
   ##----------------------------------------------------------
@@ -157,6 +158,27 @@
     pkgs.nerd-fonts.fira-mono
     pkgs.nerd-fonts.hack
   ];
+
+  ##----------------------------------------------------------
+  ## POWER MANAGEMENT
+  ##----------------------------------------------------------
+
+  # Enable power management for energy savings
+  powerManagement = {
+    enable = true;
+    cpuFreqGovernor = "ondemand"; # Balance between power and performance
+  };
+
+  # TLP for advanced power management (recommended for servers)
+  services.tlp = {
+    enable = true;
+    settings = {
+      CPU_SCALING_GOVERNOR_ON_AC = "ondemand";
+      CPU_ENERGY_PERF_POLICY_ON_AC = "balance_power";
+      RUNTIME_PM_ON_AC = "auto";
+      PCIE_ASPM_ON_AC = "powersave";
+    };
+  };
 
   ##----------------------------------------------------------
   ## SERVICES

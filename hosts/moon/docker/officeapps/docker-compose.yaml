@@ -1,0 +1,114 @@
+services:
+  couchdb-obsidian-livesync:
+    container_name: obsidian-livesync
+    image: couchdb:3.3.3
+    env_file:
+      - /volume2/docker/secrets/officeapps.env
+    environment:
+      - PUID=1036
+      - PGID=65537
+      - UMASK=0022
+      - TZ=Europe/Warsaw
+    volumes:
+      - /volume2/docker/couch-db-obsidian-sync/data:/opt/couchdb/data
+      - /volume2/docker/couch-db-obsidian-sync/etc/local.d:/opt/couchdb/etc/local.d
+    ports:
+      - "5984:5984"
+    restart: unless-stopped
+
+  memos:
+    image: ghcr.io/usememos/memos:latest
+    container_name: memos
+    volumes:
+      - /volume2/docker/memos/data-memos:/var/opt/memos
+    ports:
+      - 5230:5230
+
+  stirling-pdf:
+    image: stirlingtools/stirling-pdf:latest
+    ports:
+      - '8999:8080'
+    volumes:
+      - /volume2/docker/stirlingpdf/trainingData:/usr/share/tessdata
+      - /volume2/docker/stirlingpdf/extraConfigs:/configs
+      - /volume2/docker/stirlingpdf/customFiles:/customFiles/
+      - /volume2/docker/stirlingpdf/logs:/logs/
+      - /volume2/docker/stirlingpdf/pipeline:/pipeline/
+    environment:
+      - UID=1036
+      - GID=65356
+      - UMASK=022
+      - TZ=Europe/Warsaw
+      - DOCKER_ENABLE_SECURITY=false
+      - LANGS=pl_PL
+    restart: unless-stopped
+
+  languagetool:
+    image: erikvl87/languagetool
+    container_name: languagetool
+    ports:
+      - 8010:8010
+    environment:
+      - UID=1036
+      - GID=65356
+      - UMASK=022
+      - TZ=Europe/Warsaw
+      - langtool_languageModel=/ngrams
+      - Java_Xms=512m
+      - Java_Xmx=2g
+    restart: unless-stopped
+
+  morphos-server:
+    image: ghcr.io/danvergara/morphos-server:latest
+    ports:
+      - 8555:8080
+    volumes:
+      - /volume2/docker/morphos/tmp:/tmp
+    healthcheck:
+      test: timeout 10s bash -c ':> /dev/tcp/127.0.0.1/8080' || exit 1
+      interval: 60s
+      retries: 3
+      start_period: 20s
+      timeout: 30s
+    environment:
+      - UID=1036
+      - GID=65356
+      - UMASK=022
+      - TZ=Europe/Warsaw
+    restart: unless-stopped
+
+  # Hoarder (bookmark manager)
+  web:
+    image: ghcr.io/hoarder-app/hoarder:${HOARDER_VERSION:-release}
+    restart: unless-stopped
+    volumes:
+      - /volume2/docker/hoarder/data:/data
+    ports:
+      - 4444:3000
+    env_file:
+      - /volume2/docker/secrets/officeapps.env
+    environment:
+      MEILI_ADDR: http://meilisearch:7700
+      BROWSER_WEB_URL: http://chrome:9222
+      DATA_DIR: /data
+
+  chrome:
+    image: gcr.io/zenika-hub/alpine-chrome:123
+    restart: unless-stopped
+    command:
+      - --no-sandbox
+      - --disable-gpu
+      - --disable-dev-shm-usage
+      - --remote-debugging-address=0.0.0.0
+      - --remote-debugging-port=9222
+      - --hide-scrollbars
+
+  meilisearch:
+    image: getmeili/meilisearch:v1.11.1
+    restart: unless-stopped
+    env_file:
+      - /volume2/docker/secrets/officeapps.env
+    environment:
+      MEILI_NO_ANALYTICS: "true"
+    volumes:
+      - /volume2/docker/meilisearch:/meili_data

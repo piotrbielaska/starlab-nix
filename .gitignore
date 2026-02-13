@@ -1,1 +1,60 @@
+# macOS
 .DS_Store
+.AppleDouble
+.LSOverride
+
+# Nix
+result
+result-*
+.direnv/
+
+# Secrets - NEVER commit plaintext secrets
+*.env
+!*.env.example
+.env.*
+!.env.*.example
+
+# Decrypted age files (temporary)
+*.decrypted
+/tmp/
+
+# Editor files
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
+*.code-workspace
+
+# Build artifacts
+/dist/
+/build/
+
+# Node modules (if any)
+node_modules/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# SSH keys (should never be committed)
+id_rsa
+id_ed25519
+*.pem
+*.key
+
+# Terraform state (if used)
+*.tfstate
+*.tfstate.*
+.terraform/
+
+# Age identity files (private keys)
+*.age.key
+age-identities.txt
+
+# Backup files
+*.backup
+*.bak
+*.old

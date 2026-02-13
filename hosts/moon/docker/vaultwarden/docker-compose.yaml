@@ -1,0 +1,15 @@
+services:
+  vaultwarden:
+    image: vaultwarden/server:latest
+    container_name: vaultwarden
+    user: 1035:100
+    env_file:
+      - /volume2/docker/secrets/vaultwarden.env
+    volumes:
+      - /volume2/docker/vaultwarden:/data
+    ports:
+      - 8122:8080/tcp
+    network_mode: bridge
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped

@@ -1,0 +1,306 @@
+services:
+  rdtclient:
+    image: rogerfar/rdtclient
+    container_name: rdtclient
+    environment:
+      - PUID=1036
+      - PGID=65537
+      - TZ=Europe/London
+    volumes:
+      - /volume2/docker/rdtclient:/data/db
+      - /volume1/data/downloads:/data/downloads
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+    ports:
+      - 6500:6500
+    restart: unless-stopped
+
+  pinchflat:
+    # Downloading youtube videos from selected channels/playlists
+    image: ghcr.io/kieraneglin/pinchflat:latest
+    restart: unless-stopped
+    container_name: pinchflat
+    environment:
+      - TZ=Europe/Warsaw
+      - UID=1036
+      - GID=65356
+      - UMASK=022
+    ports:
+      - '8945:8945'
+    volumes:
+      - /volume2/docker/pinchflat/config:/config
+      - /volume1/data/media/youtube:/downloads
+
+  jellyseerr:
+    # Request management for Jellyfin/Emby
+    image: fallenbagel/jellyseerr:latest
+    container_name: jellyseerr
+    environment:
+      - PUID=1036
+      - PGID=65537
+      - LOG_LEVEL=debug
+      - TZ=Europe/Warsaw
+      - PORT=5055
+      - UMASK=022
+    ports:
+      - 5055:5055
+    volumes:
+      - /volume2/docker/jellyseerr/config:/app/config
+    restart: unless-stopped
+
+  sonarr:
+    # TV show management and downloading
+    image: linuxserver/sonarr:latest
+    container_name: sonarr
+    environment:
+      - PUID=1036
+      - PGID=65537
+      - TZ=Europe/Warsaw
+      - UMASK=022
+    volumes:
+      - /volume2/docker/sonarr:/config
+      - /volume1/data:/data
+    ports:
+      - 8989:8989/tcp
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+
+  lidarr:
+    image: youegraillot/lidarr-on-steroids
+    restart: unless-stopped
+    ports:
+      - "8686:8686"
+      - "6595:6595"
+    volumes:
+      - /volume2/docker/lidarr:/config
+      - /volume2/docker/deemix:/config_deemix
+      - /volume1/data/downloads/music-lidarr:/downloads
+      - /volume1/data/media/music:/music
+    environment:
+      - PUID=1036
+      - PGID=65537
+      - TZ=Europe/Warsaw
+      - UMASK=022
+    security_opt:
+      - no-new-privileges:true
+    container_name: lidarr
+
+  radarr:
+    # Movie management and downloading
+    image: linuxserver/radarr:latest
+    container_name: radarr
+    environment:
+      - PUID=1036
+      - PGID=65537
+      - TZ=Europe/Warsaw
+      - UMASK=022
+    volumes:
+      - /volume2/docker/radarr:/config
+      - /volume1/data:/data
+    ports:
+      - 7878:7878/tcp
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+
+  bookshelf:
+    # Replacement for readarr and speakarr
+    image: ghcr.io/pennydreadful/bookshelf:hardcover
+    ports:
+      - 8787:8787
+    environment:
+      - PUID=1036
+      - PGID=65537
+      - TZ=Europe/Warsaw
+      - UMASK=022
+    volumes:
+      - /volume2/docker/bookshelf:/config
+      - /volume1/data:/data
+
+  bazarr:
+    # Subtitle management and downloading
+    image: linuxserver/bazarr:latest
+    container_name: bazarr
+    environment:
+      - PUID=1036
+      - PGID=65537
+      - TZ=Europe/Warsaw
+      - UMASK=022
+    volumes:
+      - /volume2/docker/bazarr:/config
+      - /volume1/data:/data
+    ports:
+      - 6767:6767/tcp
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+
+  prowlarr:
+    # Indexer manager/proxy for sonarr/radarr/lidarr
+    image: linuxserver/prowlarr:latest
+    container_name: prowlarr
+    environment:
+      - PUID=1036
+      - PGID=65537
+      - TZ=Europe/Warsaw
+      - UMASK=022
+    volumes:
+      - /volume2/docker/prowlarr:/config
+    ports:
+      - 9696:9696/tcp
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+
+  autobrr:
+    # Torrent automation tool
+    container_name: autobrr
+    image: ghcr.io/autobrr/autobrr:latest
+    restart: unless-stopped
+    user: 1036:65537
+    environment:
+      - TZ=Europe/Warsaw
+      - UMASK=022
+    volumes:
+      - /volume2/docker/autobrr/config:/config
+    ports:
+      - 7474:7474
+
+  komga:
+    # Comic/manga server
+    image: gotson/komga
+    container_name: komga
+    volumes:
+      - type: bind
+        source: /volume2/docker/komaga/config
+        target: /config
+      - type: bind
+        source: /volume1/data/media/comics
+        target: /data
+    ports:
+      - 25600:25600
+    user: "1036:65537"
+    environment:
+      - UMASK=022
+      - TZ=Europe/Warsaw
+    restart: unless-stopped
+
+  stash:
+    # Personal adult media library manager
+    image: stashapp/stash:latest
+    container_name: stash
+    restart: unless-stopped
+    ports:
+      - "9999:9999"
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "10"
+        max-size: "2m"
+    environment:
+      - STASH_STASH=/data/
+      - STASH_GENERATED=/generated/
+      - STASH_METADATA=/metadata/
+      - STASH_CACHE=/cache/
+      - STASH_PORT=9999
+      - TZ=Europe/Warsaw
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /volume2/docker/stash:/root/.stash
+      - /volume1/data/media/stash:/data
+      - /volume1/data/metadata/stash:/metadata
+      - /volume1/data/metadata/stash/cache:/cache
+      - /volume1/data/metadata/stash/blobs:/blobs
+      - /volume1/data/metadata/stash/generated:/generated
+
+  lubimyczytac-abs:
+    image: lakafior/lubimyczytac-abs:latest
+    container_name: lubimyczytac-abs
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+
+  audioteka-abs:
+    image: lakafior/audioteka-abs
+    container_name: audioteka-abs
+    environment:
+      - LANGUAGE=pl
+    restart: unless-stopped
+    ports:
+      - "3001:3001"
+
+  jellyfin:
+    image: linuxserver/jellyfin:latest
+    container_name: jellyfin
+    environment:
+      - PUID=1036
+      - PGID=65537
+      - TZ=Europe/Warsaw
+      - JELLYFIN_PublishedServerUrl=media.bielaska.cloud
+      - UMASK=022
+    volumes:
+      - /volume2/docker/jellyfin:/config
+      - /volume1/data/media:/data/media
+    ports:
+      - 8096:8096/tcp
+      - 7359:7359/udp
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+
+  audiobookshelf:
+    image: ghcr.io/advplyr/audiobookshelf:latest
+    ports:
+      - 13378:80
+    volumes:
+      - /volume1/data/media/audiobooks:/audiobooks
+      - /volume1/data/media/podcasts:/podcasts
+      - /volume2/docker/audiobookshelf:/config
+      - /volume1/data/metadata/audiobookshelf:/metadata
+    environment:
+      - PUID=1036
+      - PGID=65537
+      - TZ=Europe/Warsaw
+      - UMASK=022
+    restart: unless-stopped
+
+  whisparr:
+    container_name: whisparr
+    image: ghcr.io/hotio/whisparr
+    ports:
+      - "6969:6969"
+    environment:
+      - PUID=1036
+      - PGID=65356
+      - UMASK=002
+      - TZ=Europe/Warsaw
+    volumes:
+      - /volume2/docker/whisparr/config:/config
+      - /volume1/data:/data
+    restart: unless-stopped
+
+  nicotineplus-proper:
+    container_name: nicotine
+    restart: unless-stopped
+    ports:
+      - "6565:6565"
+      - "2234:2234"
+    volumes:
+      - '/volume1/data/downloads/music2clean:/downloads'
+      - '/volume1/data/media:/shared'
+      - '/volume2/docker/nicotineplus:/config'
+      - '/volume2/docker/nicotineplus/data:/data'
+    env_file:
+      - /volume2/docker/secrets/media.env
+    environment:
+      - DARKMODE=true
+      - PUID=1036
+      - PGID=65356
+      - UMASK=002
+      - LANG=C.UTF-8
+      - AUTO_CONNECT=True
+      - TZ=Europe/Warsaw
+    image: 'sirjmann92/nicotineplus-proper:latest'

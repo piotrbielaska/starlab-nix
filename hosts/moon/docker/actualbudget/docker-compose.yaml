@@ -1,0 +1,27 @@
+services:
+  actual_server:
+    image: docker.io/actualbudget/actual-server:edge
+    ports:
+      - '5006:5006'
+    environment:
+      - ACTUAL_OPENID_AUTH_METHOD=openid
+      - ACTUAL_LOGIN_METHOD=openid
+      - ACTUAL_ALLOWED_LOGIN_METHODS=openid,password,header
+      - ACTUAL_OPENID_ENFORCE=false
+    volumes:
+      - /volume2/docker/actualbudget:/data
+    healthcheck:
+      test: ['CMD-SHELL', 'node src/scripts/health-check.js']
+      interval: 60s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+    restart: unless-stopped
+
+  actualtap-py:
+    container_name: actualtap-py
+    image: ghcr.io/bobokun/actualtap-py:latest
+    ports:
+      - 5008:8000
+    volumes:
+      - /volume2/docker/tap-to-pay:/config
